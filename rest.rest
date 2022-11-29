@@ -1,0 +1,14 @@
+GET https://golden-whispering-show.glitch.me
+
+
+###
+
+POST https://golden-whispering-show.glitch.me
+Content-Type: application/application/json
+
+{
+    "id": 9,
+    "image": "https://pagrindinis.barbora.lt/api/images/GetInventoryImage?id=d0fb9982-06e1-469d-ae79-e7efd69c59a1",
+    "title": "Gerimanto Sūris",
+    "price": 5.99
+}
