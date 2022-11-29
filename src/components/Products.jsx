@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import './Products.css';
 import SingleProduct from './SingleProduct';
 import AddProduct from './AddProduct';
+import { getFromStore, isThereValueStored, store } from './helpers/storage';
 
 function Products(props) {
   // komponentas kuris parsisiuncia duomenis
@@ -17,7 +18,15 @@ function Products(props) {
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
-    getProducts();
+    // check if we have products in global storage
+    if (isThereValueStored()) {
+      console.log('value is stored');
+      const storeProducts = getFromStore();
+      console.log('storeProducts ===', storeProducts);
+      setmainProductsArray(storeProducts);
+    } else {
+      getProducts();
+    }
   }, []);
 
   async function getProducts() {
@@ -31,6 +40,7 @@ function Products(props) {
       // console.log('dataInJs ===', dataInJs);
       // irasyti i state gautus produktus
       setmainProductsArray(dataInJs);
+      store(dataInJs);
       // resetinam loading
       setIsLoading(false);
     } catch (error) {
@@ -71,9 +81,11 @@ function Products(props) {
   }
   //        ===================================
   function productDeleteHandler(idToDelete) {
-    setmainProductsArray((prevState) =>
-      prevState.filter((obj) => obj.id !== idToDelete)
-    );
+    setmainProductsArray((prevState) => {
+      const newState = prevState.filter((obj) => obj.id !== idToDelete);
+      store(newState);
+      return newState;
+    });
     // return setmainProductsArray.filter((obj) => obj.id !== idToDelete); // negalima nes setmainProductsArray yra fn
   }
 
@@ -87,6 +99,7 @@ function Products(props) {
     newArr.push(newProductObj);
     // productAddHandler kviecia setMainProductsArray()
     setShowForm(!showForm);
+    store(newArr);
     return setmainProductsArray(newArr);
   }
 
