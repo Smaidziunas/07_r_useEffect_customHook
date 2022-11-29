@@ -1,9 +1,10 @@
-import { useState } from 'react'; // sukurus custom hook nebereikia importuotis useState;
+import { useState, useRef } from 'react'; // sukurus custom hook nebereikia importuotis useState;
 
 import useInput from './hooks/useInput';
 function AddProduct(props) {
-  // sukurti handleSubmit funkcija
+  const formRef = useRef(null);
 
+  // sukurti handleSubmit funkcija
   function handleSubmit(event) {
     event.preventDefault();
     // console.log('handling submit');
@@ -33,10 +34,19 @@ function AddProduct(props) {
   const image = useInput('/milk.jpeg');
   const price = useInput('');
 
+  function formResetHandler() {
+    console.log('formRef ===', formRef.current);
+    formRef.current.reset();
+
+    title.reset();
+    image.reset();
+    price.reset();
+  }
+
   return (
     <fieldset>
       <legend>AddProduct</legend>
-      <form onSubmit={handleSubmit}>
+      <form ref={formRef} onSubmit={handleSubmit}>
         <input
           type='text'
           onChange={title.setter}
@@ -57,6 +67,9 @@ function AddProduct(props) {
           placeholder='price'
         />
         <button type='submit'>Create</button>
+        <button onClick={formResetHandler} type='button'>
+          Reset
+        </button>
       </form>
 
       <p>
