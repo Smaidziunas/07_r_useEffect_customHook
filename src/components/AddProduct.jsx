@@ -6,17 +6,19 @@ function AddProduct(props) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    console.log('handling submit');
+    // console.log('handling submit');
 
     // surinkti visas input reiksmes i viena objekta newProductObj
     const newProductObj = {
-      id: Math.floor(Math.random() * 10) + 5,
+      // id: Math.floor(Math.random() * 10) + 5,
+      id: Math.random().toString().slice(5),
       image: image.value,
       title: title.value,
       price: price.value,
     };
 
     props.onAddProduct(newProductObj);
+
     // iskviesti tevinio komponento funkcija productAddHandler(newProductObj)
     // argumentu paduoti newProductObj;
 
@@ -28,7 +30,7 @@ function AddProduct(props) {
 
   // const [titleValue, setTitle] = useInput();
   const title = useInput('');
-  const image = useInput('');
+  const image = useInput('/milk.jpeg');
   const price = useInput('');
 
   return (

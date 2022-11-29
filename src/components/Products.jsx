@@ -14,6 +14,8 @@ function Products(props) {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  const [showForm, setShowForm] = useState(false);
+
   useEffect(() => {
     getProducts();
   }, []);
@@ -26,7 +28,7 @@ function Products(props) {
       url = '/api/products.json';
       const resp = await fetch(url);
       const dataInJs = await resp.json();
-      console.log('dataInJs ===', dataInJs);
+      // console.log('dataInJs ===', dataInJs);
       // irasyti i state gautus produktus
       setmainProductsArray(dataInJs);
       // resetinam loading
@@ -37,7 +39,7 @@ function Products(props) {
       setIsLoading(false);
     } finally {
       // vyksta bet kuriuo atveju
-      console.log('finally');
+      // console.log('finally');
       setIsLoading(false);
     }
   }
@@ -76,28 +78,35 @@ function Products(props) {
   }
 
   // susikurti productAddHandler(newProductObj)
-
-  /*
-{id: 1, image: '1', title: '', price: }
-  */
-
+  // perduoti i AddProduct.jsx
   function productAddHandler(newProductObj) {
-    console.log(newProductObj);
-    console.log('mainarr-->>', mainProductsArray);
+    // console.log(newProductObj);
+    // console.log('mainarr-->>', mainProductsArray);
+    // atnaujiman su arrow f-ja (spread (...))
     const newArr = [...mainProductsArray];
     newArr.push(newProductObj);
+    // productAddHandler kviecia setMainProductsArray()
+    setShowForm(!showForm);
     return setmainProductsArray(newArr);
   }
-  // perduoti i AddProduct.jsx
-  // productAddHandler kviecia setMainProductsArray()
-  // atnaujiman su arrow f-ja (spread (...))
+
+  function hideForm() {
+    // console.log('clicked Show Add products');
+
+    // setShowForm((previousShowValue) => {
+    //   !previousShowValue;
+    // });
+    setShowForm(!showForm);
+  }
 
   return (
     <div>
       <h2>Products</h2>
-      <button>Show Add Product</button>
+      <button onClick={hideForm}>
+        {showForm ? 'hide form' : 'Show Add Product'}
+      </button>
       {/* onAddProduct */}
-      <AddProduct onAddProduct={productAddHandler} />
+      {showForm && <AddProduct onAddProduct={productAddHandler} />}
 
       {isLoading && <h2>Loading..</h2>}
       {!isLoading && (
