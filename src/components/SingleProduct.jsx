@@ -1,9 +1,8 @@
 function SingleProduct(props) {
   // props.onDelete === productDeleteHandler (esanciame Products komponente)
-
-  function deleteTrigger() {
-    props.onDelete(props.id);
-  }
+  // function deleteTrigger() {
+  //   props.onDelete(props.id);
+  // }
 
   return (
     <li id={props.id} className='singleProduct'>
@@ -12,13 +11,7 @@ function SingleProduct(props) {
       <p>$ {props.price} </p>
       {/* pasiimti id is props ir paduoti i onDelete (arrow funkcija) */}
       {/* <button onClick={() => props.onDelete(props.id)}>delete</button> */}
-      <button
-        onClick={() => {
-          return deleteTrigger();
-        }}
-      >
-        delete
-      </button>
+      <button onClick={props.onDelete}>delete</button>
     </li>
   );
 }

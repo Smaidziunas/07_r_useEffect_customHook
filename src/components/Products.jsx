@@ -134,7 +134,7 @@ function Products(props) {
                 img={obj.image}
                 title={obj.title}
                 price={obj.price}
-                onDelete={productDeleteHandler} // nereikia skliausteliu!!
+                onDelete={() => productDeleteHandler(obj.id)} // nereikia skliausteliu!!
               >
                 {obj.title}
               </SingleProduct>
